@@ -6,4 +6,5 @@ import com.village.farmer.entity.Roles;
 
 public interface RoleRepository extends JpaRepository<Roles, Integer>{
 
+    Roles findByRole (String role);
 }

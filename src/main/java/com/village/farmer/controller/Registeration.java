@@ -1,6 +1,8 @@
 package com.village.farmer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,19 +19,18 @@ public class Registeration {
 	@Autowired Register register;
 	
 	@PostMapping("/user")
-	public UserRegisterationResponse UserRegister(@RequestBody UserRegisterationRequest form) {
+	public ResponseEntity<UserRegisterationResponse> UserRegister(@RequestBody UserRegisterationRequest form) {
 		UserRegisterationResponse res = new UserRegisterationResponse();
 		try {
 			register.Registeration(form);
-			res.setStatus("200");
 			res.setMsg("Success");
 			res.setUser(form.getCredential().getUser());
 			res.setRole(form.getRole().getRole());
+			return ResponseEntity.ok().body(res);
 		} catch (Exception e) {
-			res.setStatus("500");
 			res.setMsg("Fail: "+e.getMessage());
 			res.setUser(form.getCredential().getUser());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(res);
 		}
-		return res;
 	}
 }

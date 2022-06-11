@@ -6,5 +6,5 @@ import com.village.farmer.entity.Credentials;
 
 public interface CredentialRepository extends JpaRepository<Credentials, Integer> {
 
-	String findByUser(String username);
+	Credentials findByUser(String username);
 }

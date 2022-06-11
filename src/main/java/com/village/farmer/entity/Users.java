@@ -30,6 +30,12 @@ public class Users implements Serializable {
 	
 	@Column(name = "lname")
 	private String lname;
+
+	@Column(name = "phone")
+	private String tel;
+
+	@Column(name = "email")
+	private String mail;
 	
 	@Column(name = "active")
 	private Boolean active;
@@ -51,15 +57,15 @@ public class Users implements Serializable {
 	private Address addr;
 
 	public Integer getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public String getFname() {
-		return fname;
+		return this.fname;
 	}
 
 	public void setFname(String fname) {
@@ -67,15 +73,35 @@ public class Users implements Serializable {
 	}
 
 	public String getLname() {
-		return lname;
+		return this.lname;
 	}
 
 	public void setLname(String lname) {
 		this.lname = lname;
 	}
 
+	public String getTel() {
+		return this.tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getMail() {
+		return this.mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	public Boolean isActive() {
+		return this.active;
+	}
+
 	public Boolean getActive() {
-		return active;
+		return this.active;
 	}
 
 	public void setActive(Boolean active) {
@@ -83,7 +109,7 @@ public class Users implements Serializable {
 	}
 
 	public Roles getRole_id() {
-		return role_id;
+		return this.role_id;
 	}
 
 	public void setRole_id(Roles role_id) {
@@ -91,7 +117,7 @@ public class Users implements Serializable {
 	}
 
 	public Careers getPosition_id() {
-		return position_id;
+		return this.position_id;
 	}
 
 	public void setPosition_id(Careers position_id) {
@@ -99,7 +125,7 @@ public class Users implements Serializable {
 	}
 
 	public Credentials getCred() {
-		return cred;
+		return this.cred;
 	}
 
 	public void setCred(Credentials cred) {
@@ -107,11 +133,10 @@ public class Users implements Serializable {
 	}
 
 	public Address getAddr() {
-		return addr;
+		return this.addr;
 	}
 
 	public void setAddr(Address addr) {
 		this.addr = addr;
 	}
-
 }
