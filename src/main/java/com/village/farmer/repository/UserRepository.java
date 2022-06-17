@@ -7,5 +7,5 @@ import com.village.farmer.entity.Users;
 
 public interface UserRepository extends JpaRepository<Users, Integer>{
 	
-    Users findByCredential (Credentials cred);
+    Users findByCred (Credentials cred);
 }

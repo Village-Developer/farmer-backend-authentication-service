@@ -1,6 +1,8 @@
 package com.village.farmer.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +24,18 @@ public class UserManage {
         UserGetResponse res = new UserGetResponse();
         try {
             Credentials data = credRepo.findByUser(username);
-            Users user = userRepo.findByCredential(data);
+            Users user = userRepo.findByCred(data);
             res.setData(user);
             res.setMsg("Success");
-            return ResponseEntity.ok().body(res);
+            return ResponseEntity
+            		.ok()
+            		.body(res);
         } catch (Exception e) {
             res.setMsg("Fail: "+e.getMessage());
-            return ResponseEntity.ok().body(res);
+            return ResponseEntity
+            		.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            		.contentType(MediaType.APPLICATION_JSON)
+            		.body(res);
         }
     }
 
@@ -36,18 +43,32 @@ public class UserManage {
         GenericsResponse res = new GenericsResponse();
         try {
             Credentials data = credRepo.findByUser(username);
-            Users user = userRepo.findByCredential(data);
-            user.setAddr(request.getAddr());
-            user.setFname(request.getFname());
-            user.setLname(request.getLname());
-            user.setMail(request.getEmail());
-            user.setTel(request.getTel());
+            Users user = userRepo.findByCred(data);
+            if(request.getAddr()!=null) {
+            	user.setAddr(request.getAddr());
+            }
+            if(request.getFname()!=null) {
+            	 user.setFname(request.getFname());
+            }
+            if(request.getLname()!=null) {
+            	user.setLname(request.getLname());
+            }
+            if(request.getEmail()!=null) {
+            	user.setMail(request.getEmail());
+            }
+            if(request.getTel()!=null) {
+            	user.setTel(request.getTel());
+            }
             userRepo.save(user);
             res.setMsg("Success");
-            return ResponseEntity.ok().body(res);
+            return ResponseEntity
+            		.ok()
+            		.body(res);
         } catch (Exception e) {
             res.setMsg("Fail: "+e.getMessage());
-            return ResponseEntity.ok().body(res);
+            return ResponseEntity
+            		.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            		.body(res);
         }
     }
 }

@@ -40,11 +40,11 @@ public class Users implements Serializable {
 	@Column(name = "active")
 	private Boolean active;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "role_id", referencedColumnName = "id")
 	private Roles role_id;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "position_id", referencedColumnName = "id")
 	private Careers position_id;
 	
@@ -52,7 +52,7 @@ public class Users implements Serializable {
 	@JoinColumn(name = "cred", referencedColumnName = "id")
 	private Credentials cred;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "addr", referencedColumnName = "id")
 	private Address addr;
 

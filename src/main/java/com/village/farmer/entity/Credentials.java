@@ -12,6 +12,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="credentials")
 @GenericGenerator(name = "idGenerator",strategy = "native")
@@ -28,6 +30,7 @@ public class Credentials implements Serializable{
 	@Column(name = "pass")
 	private String pass;
 	
+	@JsonIgnore
 	@OneToOne(mappedBy = "cred")
 	private Users users;
 

@@ -15,6 +15,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "roles")
 @GenericGenerator(name = "idGenerator",strategy = "native")
@@ -28,6 +30,7 @@ public class Roles implements Serializable {
 	@Column(name = "role")
 	private String role;
 	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role_id")
 	private Collection<Users> users = new HashSet<Users>();
 

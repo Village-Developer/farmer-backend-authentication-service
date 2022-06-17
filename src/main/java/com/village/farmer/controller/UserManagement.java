@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.village.farmer.model.request.UserEditRequest;
@@ -21,6 +22,7 @@ public class UserManagement {
     @Autowired UserManage manage;
 
     @GetMapping("/get/{username}")
+    @ResponseBody
     public ResponseEntity<UserGetResponse> get (@PathVariable("username") String username) {
         return manage.getUser(username);
     }
@@ -29,5 +31,5 @@ public class UserManagement {
     public ResponseEntity<GenericsResponse> name(@PathVariable("username") String username, @RequestBody UserEditRequest request) {
         return manage.editUser(username,request);
     }
-    
+
 }

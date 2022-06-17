@@ -22,7 +22,7 @@ public class RoleManage {
 	
 	public ResponseEntity<?> EditRole(GenericsResponse response, String username, String role) {
 		Credentials credential = credRepo.findByUser(username);
-		Users user = userRepo.findByCredential(credential);
+		Users user = userRepo.findByCred(credential);
 		user.setRole_id(roleRepo.findByRole(role.toLowerCase()));
 		userRepo.save(user);
 		response.setMsg("Success");

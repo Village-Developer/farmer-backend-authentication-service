@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="careers")
 @GenericGenerator(name = "idGenerator",strategy = "native")
@@ -30,6 +32,7 @@ public class Address implements Serializable {
 	@Column(name = "detail")
 	private String detail;
 	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "addr")
 	private Collection<Users> user = new HashSet<Users>();
 	
