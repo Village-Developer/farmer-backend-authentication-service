@@ -17,11 +17,11 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="users")
-@GenericGenerator(name = "idGenerator",strategy = "native")
-public class Users implements Serializable {
+//@GenericGenerator(name = "idGenerator",strategy = "native")
+public class Users {
 	
 	@Id
-	@GeneratedValue(generator="idGenerator", strategy=GenerationType.AUTO) 
+	@GeneratedValue(generator="idGenerator", strategy=GenerationType.IDENTITY) 
 	@Column(name ="id",nullable = false)
 	private Integer id;
 	

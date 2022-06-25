@@ -12,6 +12,7 @@ import com.village.farmer.model.request.LoginRequest;
 import com.village.farmer.repository.CredentialRepository;
 import com.village.farmer.repository.UserRepository;
 import com.village.farmer.statics.JwtStaticParameter;
+import com.village.farmer.statics.StatusStatic;
 
 @Service
 public class JwsAccessToken {
@@ -22,11 +23,14 @@ public class JwsAccessToken {
     @Autowired CertificateKey cert;
 	
 	public String ClaimAuth(LoginRequest login) throws Exception {
+		Credentials cred = credRepo.findByUser(login.getUsername());
+		if(cred == null) {
+			throw new Exception(StatusStatic.AUTH_01);
+		}
+		if(!(login.getPassword().equals(cred.getPass()))) {
+			throw new Exception(StatusStatic.AUTH_02);
+		}
 		try {
-			Credentials cred = credRepo.findByUser(login.getUsername());
-			if(!(login.getPassword().equals(cred.getPass()))) {
-				throw new Exception();
-			}
 			Users user = userRepo.findByCred(cred);
 			JwtClaims claim = new JwtClaims();
 			claim.setAudience(user.getRole_id().getRole());
@@ -44,7 +48,7 @@ public class JwsAccessToken {
 			String jwt = jws.getCompactSerialization();
 			return jwt;
 		} catch (Exception e) {
-			throw new Exception("invalid username or password");
+			throw new Exception(StatusStatic.AUTH_03);
 		}
 	}
 }

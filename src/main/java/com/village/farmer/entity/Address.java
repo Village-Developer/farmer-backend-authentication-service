@@ -20,12 +20,12 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="careers")
-@GenericGenerator(name = "idGenerator",strategy = "native")
-public class Address implements Serializable {
+@Table(name="address")
+//@GenericGenerator(name = "idGenerator",strategy = "native")
+public class Address {
 
 	@Id
-	@GeneratedValue(generator="idGenerator", strategy=GenerationType.AUTO) 
+	@GeneratedValue(generator="idGenerator", strategy=GenerationType.IDENTITY) 
 	@Column(name ="id",nullable = false)
 	private Integer id;
 	

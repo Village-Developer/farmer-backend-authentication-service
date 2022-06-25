@@ -19,11 +19,11 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="subdistricts")
-@GenericGenerator(name = "idGenerator",strategy = "native")
-public class Subdistricts implements Serializable {
+//@GenericGenerator(name = "idGenerator",strategy = "native")
+public class Subdistricts {
 
 	@Id
-	@GeneratedValue(generator="idGenerator", strategy=GenerationType.AUTO) 
+	@GeneratedValue(generator="idGenerator", strategy=GenerationType.IDENTITY) 
 	@Column(name ="id",nullable = false)
 	private Integer id;
 	

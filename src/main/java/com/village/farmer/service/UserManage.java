@@ -1,8 +1,8 @@
 package com.village.farmer.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +13,7 @@ import com.village.farmer.model.response.GenericsResponse;
 import com.village.farmer.model.response.UserGetResponse;
 import com.village.farmer.repository.CredentialRepository;
 import com.village.farmer.repository.UserRepository;
+import com.village.farmer.statics.StatusStatic;
 
 @Service
 public class UserManage {
@@ -26,17 +27,13 @@ public class UserManage {
             Credentials data = credRepo.findByUser(username);
             Users user = userRepo.findByCred(data);
             res.setData(user);
-            res.setMsg("Success");
-            return ResponseEntity
-            		.ok()
-            		.body(res);
+            res.setMsg(StatusStatic.MANAGE_USER_01);
         } catch (Exception e) {
-            res.setMsg("Fail: "+e.getMessage());
-            return ResponseEntity
-            		.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            		.contentType(MediaType.APPLICATION_JSON)
-            		.body(res);
+            res.setMsg(e.getMessage());
         }
+        return ResponseEntity
+        		.status(StatusStatic.Status(res.getMsg()))
+        		.body(res);
     }
 
     public ResponseEntity<GenericsResponse> editUser(String username, UserEditRequest request) {
@@ -61,14 +58,11 @@ public class UserManage {
             }
             userRepo.save(user);
             res.setMsg("Success");
-            return ResponseEntity
-            		.ok()
-            		.body(res);
         } catch (Exception e) {
-            res.setMsg("Fail: "+e.getMessage());
-            return ResponseEntity
-            		.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            		.body(res);
+            res.setMsg(e.getMessage());
         }
+        return ResponseEntity
+        		.status(StatusStatic.Status(res.getMsg()))
+        		.body(res);
     }
 }

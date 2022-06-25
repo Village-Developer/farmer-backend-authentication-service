@@ -18,21 +18,21 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name="districts")
-@GenericGenerator(name = "idGenerator",strategy = "native")
-public class Districts implements Serializable {
+@Table(name = "districts")
+//@GenericGenerator(name = "idGenerator",strategy = "native")
+public class Districts  {
 
 	@Id
-	@GeneratedValue(generator="idGenerator", strategy=GenerationType.AUTO) 
-	@Column(name ="id",nullable = false)
+	@GeneratedValue(generator = "idGener" + "" + "ator", strategy = GenerationType.IDENTITY)
+	@Column(name = "id", nullable = false)
 	private Integer id;
-	
+
 	@Column(name = "district")
 	private String district;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Provinces province;
-	
+
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "subdistict_id", referencedColumnName = "id")
 	private Collection<Subdistricts> subdistrict_id = new HashSet<Subdistricts>();
@@ -68,5 +68,5 @@ public class Districts implements Serializable {
 	public void setSubdistrict_id(Collection<Subdistricts> subdistrict_id) {
 		this.subdistrict_id = subdistrict_id;
 	}
-	
+
 }

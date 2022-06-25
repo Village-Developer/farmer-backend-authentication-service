@@ -15,6 +15,11 @@ import com.village.farmer.model.response.GenericsResponse;
 import com.village.farmer.model.response.UserRegisterationResponse;
 import com.village.farmer.service.Permission;
 import com.village.farmer.service.Register;
+import com.village.farmer.statics.StaticsParameter;
+import com.village.farmer.statics.StatusStatic;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/register")
@@ -27,45 +32,33 @@ public class Registeration {
 	public ResponseEntity<UserRegisterationResponse> UserRegister(@RequestBody UserRegisterationRequest form) {
 		UserRegisterationResponse res = new UserRegisterationResponse();
 		try {
-			if(!(form.getRole().getRole().equals("user"))) {
-				res.setMsg("Fail: Not Allow for Administration Register");
-				res.setUser(form.getCredential().getUser());
-				return ResponseEntity
-						.status(HttpStatus.FORBIDDEN)
-						.body(res);
-			}
 			register.UserRegisteration(form);
-			res.setMsg("Success");
+			res.setMsg(StatusStatic.REG_03);
 			res.setUser(form.getCredential().getUser());
-			res.setRole(form.getRole().getRole());
-			return ResponseEntity
-					.ok()
-					.body(res);
+			res.setRole(StaticsParameter.ROLE_USER);
 		} catch (Exception e) {
-			res.setMsg("Fail: "+e.getMessage());
+			res.setMsg(e.getMessage());
 			res.setUser(form.getCredential().getUser());
-			return ResponseEntity
-					.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(res);
 		}
+		return ResponseEntity
+				.status(StatusStatic.Status(res.getMsg()))
+				.body(res);
 	}
 	
 	@PostMapping("/admin")
+	@Operation(security = @SecurityRequirement(name = "bearerAuth"), summary = "Unavailable now")
 	public ResponseEntity<?> AdminRegister (@RequestParam("Authentication") String token,@RequestBody AdminRegistrationRequest form) {
 		GenericsResponse res = new GenericsResponse();
 		try {
 			if(!permission.AdminPermission(token)) {
-				res.setMsg("No Allow");
-				return ResponseEntity
-						.status(HttpStatus.FORBIDDEN)
-						.body(res);
+				throw new Exception(StatusStatic.PERMISSION);
 			}
-			return null;
+			throw new Exception("Unavailable");
 		} catch (Exception e) {
-			res.setMsg("Role is not Change");
-			return ResponseEntity
-					.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(res);
+			res.setMsg(e.getMessage());
 		}
+		return ResponseEntity
+				.status(StatusStatic.Status(res.getMsg()))
+				.body(res);
 	}
 }

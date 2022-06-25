@@ -16,11 +16,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="credentials")
-@GenericGenerator(name = "idGenerator",strategy = "native")
-public class Credentials implements Serializable{
+//@GenericGenerator(name = "idGenerator",strategy = "native")
+public class Credentials {
 
 	@Id
-	@GeneratedValue(generator="idGenerator", strategy=GenerationType.AUTO) 
+	@GeneratedValue(generator="idGenerator", strategy=GenerationType.IDENTITY) 
 	@Column(name ="id",nullable = false)
 	private Integer id;
 	

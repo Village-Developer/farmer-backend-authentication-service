@@ -19,11 +19,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "roles")
-@GenericGenerator(name = "idGenerator",strategy = "native")
-public class Roles implements Serializable {
+//@GenericGenerator(name = "idGenerator",strategy = "native")
+public class Roles {
 
 	@Id
-	@GeneratedValue(generator="idGenerator", strategy=GenerationType.AUTO) 
+	@GeneratedValue(generator="idGenerator", strategy=GenerationType.IDENTITY) 
 	@Column(name ="id",nullable = false)
 	private Integer id;
 	

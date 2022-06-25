@@ -6,8 +6,6 @@ import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.village.farmer.entity.Credentials;
-import com.village.farmer.entity.Users;
 import com.village.farmer.repository.CredentialRepository;
 import com.village.farmer.repository.UserRepository;
 import com.village.farmer.statics.JwtStaticParameter;
@@ -46,12 +44,10 @@ public class Permission {
 			}
 			if(subject.equals("Authentication")) {
 				return true;
-			}else {
-				return false;
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
 		}
+		return false;
 	}
 }

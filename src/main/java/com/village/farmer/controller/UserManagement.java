@@ -1,5 +1,8 @@
 package com.village.farmer.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.village.farmer.entity.Users;
 import com.village.farmer.model.request.UserEditRequest;
 import com.village.farmer.model.response.GenericsResponse;
 import com.village.farmer.model.response.UserGetResponse;
+import com.village.farmer.repository.UserRepository;
 import com.village.farmer.service.UserManage;
 
 @RestController
@@ -20,6 +25,7 @@ import com.village.farmer.service.UserManage;
 public class UserManagement {
 
     @Autowired UserManage manage;
+    @Autowired UserRepository repo;
 
     @GetMapping("/get/{username}")
     @ResponseBody
@@ -31,5 +37,4 @@ public class UserManagement {
     public ResponseEntity<GenericsResponse> name(@PathVariable("username") String username, @RequestBody UserEditRequest request) {
         return manage.editUser(username,request);
     }
-
 }

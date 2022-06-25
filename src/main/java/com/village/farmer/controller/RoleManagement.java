@@ -1,18 +1,24 @@
 package com.village.farmer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.village.farmer.model.request.AdminRoleManageRequest;
+import com.village.farmer.model.request.AdminRoleManagementEditRequest;
 import com.village.farmer.model.response.GenericsResponse;
 import com.village.farmer.service.Permission;
 import com.village.farmer.service.RoleManage;
+import com.village.farmer.statics.StatusStatic;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/manage/role")
@@ -22,40 +28,59 @@ public class RoleManagement {
 	@Autowired RoleManage manage; 
 	
 	@PutMapping("/admin/edit")
-	public ResponseEntity<?> edit(@RequestParam("Authentication") String token, AdminRoleManageRequest request) {
+	@Operation(security = @SecurityRequirement(name = "bearerAuth"))
+	public ResponseEntity<?> edit(@RequestHeader("Authorization") String token, @RequestBody AdminRoleManagementEditRequest request) {
 		GenericsResponse res = new GenericsResponse();
 		try {
 			if(!permission.AdminPermission(token)) {
-				res.setMsg("Not Allow");
-				return ResponseEntity
-						.status(HttpStatus.FORBIDDEN)
-						.body(res);
+				throw new Exception(StatusStatic.PERMISSION);
 			}
-			return manage.EditRole(res, request.getUsername(), request.getRole());
+			manage.EditRole(res, request.getUsername(), request.getRole());
+			res.setMsg(StatusStatic.MANAGE_ROLE_01);
 		} catch (Exception e) {
-			res.setMsg("Role is not Change");
-			return ResponseEntity
-					.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(res);
+			res.setMsg(e.getMessage());
 		}
+		return ResponseEntity
+				.status(StatusStatic.Status(res.getMsg()))
+				.body(res);
 	}
 	
 	@PostMapping("/admin/add")
-	public ResponseEntity<?> add(@RequestParam("Authentication") String token, AdminRoleManageRequest request) {
+	@Operation(security = @SecurityRequirement(name = "bearerAuth"))
+	public ResponseEntity<?> add(@RequestHeader("Authorization") String token, @RequestBody AdminRoleManageRequest request) {
 		GenericsResponse res = new GenericsResponse();
+		token = token.split(" ")[1];
 		try {
 			if(!permission.AdminPermission(token)) {
-				res.setMsg("Not Allow");
-				return ResponseEntity
-						.status(HttpStatus.FORBIDDEN)
-						.body(res);
+				throw new Exception(StatusStatic.PERMISSION);
 			}
-			return manage.AddRole(res, request.getRole());
+			manage.AddRole(res, request.getRole());
+			res.setMsg(StatusStatic.MANAGE_ROLE_02);
 		} catch (Exception e) {
-			res.setMsg("Role is not Change");
-			return ResponseEntity
-					.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(res);
+			res.setMsg(e.getMessage());
 		}
+		return ResponseEntity
+				.status(StatusStatic.Status(res.getMsg()))
+				.body(res);
+	}
+	
+	@DeleteMapping("/admin/delete")
+	@Operation(security = @SecurityRequirement(name = "bearerAuth"))
+	public ResponseEntity<?> delete(@RequestHeader("Authorization") String token, @RequestBody AdminRoleManageRequest request) {
+		GenericsResponse res = new GenericsResponse();
+		token = token.split(" ")[1];
+		try {
+			if(!permission.AdminPermission(token)) {
+				throw new Exception(StatusStatic.PERMISSION);
+			}
+			manage.DelRole(res, request.getRole());
+			res.setMsg(StatusStatic.MANAGE_ROLE_03);
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.setMsg(e.getMessage());
+		}
+		return ResponseEntity
+				.status(StatusStatic.Status(res.getMsg()))
+				.body(res);
 	}
 }

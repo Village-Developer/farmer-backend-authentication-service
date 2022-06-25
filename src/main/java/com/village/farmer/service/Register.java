@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.village.farmer.entity.Users;
 import com.village.farmer.model.request.AdminRegistrationRequest;
 import com.village.farmer.model.request.UserRegisterationRequest;
@@ -14,6 +13,7 @@ import com.village.farmer.repository.CredentialRepository;
 import com.village.farmer.repository.RoleRepository;
 import com.village.farmer.repository.UserRepository;
 import com.village.farmer.statics.StaticsParameter;
+import com.village.farmer.statics.StatusStatic;
 
 @Service
 public class Register {
@@ -24,40 +24,36 @@ public class Register {
 	
 	public void UserRegisteration(UserRegisterationRequest data) throws Exception {
 		Users userDb = new Users();
-		if(UserExist(data.getCredential().getUser())) {
-			throw new Exception("user exist");
+		try {
+			if(UserExist(data.getCredential().getUser())) {
+			throw new Exception(StatusStatic.REG_02);
 		}
-		if(ValidateRegister(data.getCredential().getUser(), data.getCredential().getPass())) {
-			userDb.setActive(true);
-			userDb.setAddr(data.getAddr());
- 			userDb.setCred(data.getCredential());
- 			userDb.setPosition_id(data.getJob());
-			userDb.setFname(data.getFname());
-			userDb.setLname(data.getLname());
-			if(roleRepo.findByRole(data.getRole().getRole())==null) {
-				userDb.setRole_id(data.getRole());
+			if(ValidateRegister(data.getCredential().getUser(), data.getCredential().getPass())) {
+				userDb.setActive(true);
+				userDb.setAddr(data.getAddr());
+	 			userDb.setCred(data.getCredential());
+	 			userDb.setPosition_id(data.getJob());
+				userDb.setFname(data.getFname());
+				userDb.setLname(data.getLname());
+				userDb.setRole_id(roleRepo.findByRole(StaticsParameter.ROLE_USER));
+				userRepo.save(userDb);
 			} else {
-				userDb.setRole_id(roleRepo.findByRole(data.getRole().getRole()));
+				throw new Exception(StatusStatic.REG_01);
 			}
-			userRepo.save(userDb);
-		} else {
-			throw new Exception("user cannot register");
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
 		}
 	}
 	
 	private boolean UserExist(String username) {
 		if(credRepo.findByUser(username)==null) {
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public Boolean ValidateRegister(String username, String password) {
 		
-		// username
-		if (!DuplicateUser(username)) {
-			return false;
-		}
 		if (username.length()<4) {
 			return false;
 		}
@@ -67,14 +63,6 @@ public class Register {
 			return false;
 		}
 		return true;
-	}
-	
-	public Boolean DuplicateUser(String username) {
-		if(credRepo.findByUser(username)==null) {
-			return true;
-		}else {
-			return false;
-		}
 	}
 
 	public Boolean PasswordStrength(String password) {
