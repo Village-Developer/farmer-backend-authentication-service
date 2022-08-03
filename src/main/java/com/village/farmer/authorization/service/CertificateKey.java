@@ -22,7 +22,7 @@ public class CertificateKey {
 		    InputStream stream = new FileInputStream(file);
 		    KeyStore store = KeyStore.getInstance("PKCS12");
 		    store.load(stream, JwtStaticParameter.PASSWORD_CERT.toCharArray());
-		    PrivateKey priv = (PrivateKey)store.getKey("VillageAlias", JwtStaticParameter.PASSWORD_CERT.toCharArray());
+		    PrivateKey priv = (PrivateKey)store.getKey("ชัยธวัช มหาแก้ว", JwtStaticParameter.PASSWORD_CERT.toCharArray());
 		    return priv;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -32,11 +32,11 @@ public class CertificateKey {
 	
 	public Key CertPublicKey() throws Exception {
 		try {
-			File file = new File("village.p12");
+			File file = new File("keyStore.p12");
 		    InputStream stream = new FileInputStream(file);
 		    KeyStore store = KeyStore.getInstance("PKCS12");
 		    store.load(stream, JwtStaticParameter.PASSWORD_CERT.toCharArray());
-		    Certificate k = store.getCertificate("VillageAlias");
+		    Certificate k = store.getCertificate("ชัยธวัช มหาแก้ว");
 		    PublicKey pub = k.getPublicKey();
 		    return pub;
 		} catch (Exception e) {

@@ -50,6 +50,7 @@ public class JwsAccessToken {
 			String jwt = jws.getCompactSerialization();
 			return jwt;
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new Exception(StatusStatic.AUTH_03);
 		}
 	}

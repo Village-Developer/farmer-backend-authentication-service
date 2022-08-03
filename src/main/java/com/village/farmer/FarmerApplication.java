@@ -9,14 +9,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 public class FarmerApplication {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) /*throws IOException*/ {
 		SpringApplication.run(FarmerApplication.class, args);
-		openHomePage();
+//		openHomePage();
 	}
 	
-	private static void openHomePage() throws IOException {
-       Runtime rt = Runtime.getRuntime();
-       rt.exec("rundll32 url.dll,FileProtocolHandler " + "http://localhost:9000/swagger-ui-custom.html");
-	}
+//	private static void openHomePage() throws IOException {
+//       Runtime rt = Runtime.getRuntime();
+//       rt.exec("rundll32 url.dll,FileProtocolHandler " + "http://localhost:9000/swagger-ui-custom.html");
+//	}
 
 }
+/*
+
+ */

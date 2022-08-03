@@ -15,7 +15,7 @@ public class StatusStatic {
 	public static final String REG_02 = "User Already Exists";
 	public static final String REG_03 = "User Created";
 	
-	// management
+	// management reason
 	public static final String MANAGE_ROLE_01 = "Edit Successful";
 	public static final String MANAGE_ROLE_02 = "Add Successful";
 	public static final String MANAGE_ROLE_03 = "Delete Successful";
@@ -27,6 +27,7 @@ public class StatusStatic {
 
 	
 	public static HttpStatus Status(String err) {
+
 		// authentication
 		if(err.equals(AUTH_01)) {
 			return HttpStatus.UNAUTHORIZED;
