@@ -32,7 +32,7 @@ public class CertificateKey {
 	
 	public Key CertPublicKey() throws Exception {
 		try {
-			File file = new File("keyStore.p12");
+			File file = new File("village.p12");
 		    InputStream stream = new FileInputStream(file);
 		    KeyStore store = KeyStore.getInstance("PKCS12");
 		    store.load(stream, JwtStaticParameter.PASSWORD_CERT.toCharArray());
