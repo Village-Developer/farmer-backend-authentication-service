@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 public class FarmerApplication {
 
-	public static void main(String[] args) /*throws IOException*/ {
+	public static void main(String[] args)  {
 		SpringApplication.run(FarmerApplication.class, args);
 //		openHomePage();
 	}
