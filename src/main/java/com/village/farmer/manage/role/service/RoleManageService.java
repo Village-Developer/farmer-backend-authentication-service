@@ -13,7 +13,7 @@ import com.village.farmer.manage.user.repository.UserRepository;
 import com.village.farmer.statics.StatusStatic;
 
 @Service
-public class RoleManage {
+public class RoleManageService {
 
 	@Autowired CredentialRepository credRepo;
 	@Autowired UserRepository userRepo;

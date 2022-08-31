@@ -13,7 +13,7 @@ import com.village.farmer.registration.entity.request.UserRegisterationRequest;
 import com.village.farmer.generics.entity.response.GenericsResponse;
 import com.village.farmer.registration.entity.response.UserRegisterationResponse;
 import com.village.farmer.authorization.service.Permission;
-import com.village.farmer.registration.service.Register;
+import com.village.farmer.registration.service.RegisterService;
 import com.village.farmer.statics.StaticsParameter;
 import com.village.farmer.statics.StatusStatic;
 
@@ -22,9 +22,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/register")
-public class Registeration {
+public class RegisterationController {
 
-	@Autowired Register register;
+	@Autowired
+	RegisterService register;
 	@Autowired Permission permission;
 	
 	@PostMapping("/user")

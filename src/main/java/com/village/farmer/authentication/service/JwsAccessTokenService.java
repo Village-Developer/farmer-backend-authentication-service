@@ -16,7 +16,7 @@ import com.village.farmer.statics.JwtStaticParameter;
 import com.village.farmer.statics.StatusStatic;
 
 @Service
-public class JwsAccessToken {
+public class JwsAccessTokenService {
 
 	@Autowired UserRepository userRepo;
     @Autowired CredentialRepository credRepo;

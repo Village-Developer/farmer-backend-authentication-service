@@ -16,7 +16,7 @@ import com.village.farmer.statics.StaticsParameter;
 import com.village.farmer.statics.StatusStatic;
 
 @Service
-public class Register {
+public class RegisterService {
 	
 	@Autowired CredentialRepository credRepo;
 	@Autowired RoleRepository roleRepo;

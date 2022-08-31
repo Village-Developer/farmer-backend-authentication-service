@@ -9,14 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.village.farmer.authentication.entity.request.LoginRequest;
 import com.village.farmer.authentication.entity.response.LoginResponse;
-import com.village.farmer.authentication.service.JwsAccessToken;
+import com.village.farmer.authentication.service.JwsAccessTokenService;
 import com.village.farmer.statics.StatusStatic;
 
 @RestController
 @RequestMapping("/auth")
-public class Authentication {
+public class AuthenticationController {
 	
-	@Autowired JwsAccessToken jwt;
+	@Autowired
+	JwsAccessTokenService jwt;
 	
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponse> Login(@RequestBody LoginRequest login) throws Exception {

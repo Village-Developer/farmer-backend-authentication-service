@@ -14,7 +14,7 @@ import com.village.farmer.manage.role.entity.request.AdminRoleManageRequest;
 import com.village.farmer.manage.role.entity.request.AdminRoleManagementEditRequest;
 import com.village.farmer.generics.entity.response.GenericsResponse;
 import com.village.farmer.authorization.service.Permission;
-import com.village.farmer.manage.role.service.RoleManage;
+import com.village.farmer.manage.role.service.RoleManageService;
 import com.village.farmer.statics.StatusStatic;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,10 +22,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/manage/role")
-public class RoleManagement {
+public class RoleManagementController {
 
 	@Autowired Permission permission;
-	@Autowired RoleManage manage; 
+	@Autowired
+	RoleManageService manage;
 	
 	@PutMapping("/admin/edit")
 	@Operation(security = @SecurityRequirement(name = "bearerAuth"))

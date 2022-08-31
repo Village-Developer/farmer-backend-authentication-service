@@ -14,7 +14,7 @@ import com.village.farmer.manage.user.repository.UserRepository;
 import com.village.farmer.statics.StatusStatic;
 
 @Service
-public class UserManage {
+public class UserManageService {
 
     @Autowired UserRepository userRepo;
     @Autowired CredentialRepository credRepo;

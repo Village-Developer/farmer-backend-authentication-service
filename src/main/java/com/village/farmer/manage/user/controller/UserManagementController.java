@@ -14,13 +14,14 @@ import com.village.farmer.manage.user.entity.request.UserEditRequest;
 import com.village.farmer.generics.entity.response.GenericsResponse;
 import com.village.farmer.manage.user.entity.response.UserGetResponse;
 import com.village.farmer.manage.user.repository.UserRepository;
-import com.village.farmer.manage.user.service.UserManage;
+import com.village.farmer.manage.user.service.UserManageService;
 
 @RestController
 @RequestMapping("/manage/user")
-public class UserManagement {
+public class UserManagementController {
 
-    @Autowired UserManage manage;
+    @Autowired
+    UserManageService manage;
     @Autowired UserRepository repo;
 
     @GetMapping("/get/{username}")
