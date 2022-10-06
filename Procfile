@@ -1,1 +1,0 @@
-web: java -jar target/farmer-0.0.1-SNAPSHOT.jar
