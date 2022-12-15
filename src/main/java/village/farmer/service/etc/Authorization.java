@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import village.farmer.entity.User;
 import village.farmer.repository.UserRepository;
-import village.farmer.service.etc.RoleReturn;
 import village.farmer.statics.StaticsEnum;
 
 @Service

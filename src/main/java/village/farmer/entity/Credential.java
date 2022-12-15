@@ -1,7 +1,16 @@
 package village.farmer.entity;
 
-import javax.persistence.*;
+import lombok.*;
+import org.hibernate.Hibernate;
 
+import javax.persistence.*;
+import java.time.Instant;
+import java.util.Objects;
+
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "credential")
 public class Credential {
@@ -13,8 +22,14 @@ public class Credential {
     @Column(name = "username", length = 15)
     private String username;
 
-    @Column(name = "password", length = 30)
+    @Column(name = "password", length = 120)
     private String password;
+
+    @Column(name = "created_at")
+    private Instant createdAt;
+
+    @Column(name = "updated_at")
+    private Instant updateAt;
 
     public Integer getId() {
         return id;
@@ -40,4 +55,32 @@ public class Credential {
         this.password = password;
     }
 
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Instant updateAt) {
+        this.updateAt = updateAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Credential that = (Credential) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

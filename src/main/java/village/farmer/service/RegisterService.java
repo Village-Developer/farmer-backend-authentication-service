@@ -2,18 +2,21 @@ package village.farmer.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import village.farmer.entity.Credential;
 import village.farmer.entity.Role;
 import village.farmer.entity.User;
-import village.farmer.model.GenericsResponse;
+import village.farmer.model.GenericsResponseModel;
 import village.farmer.model.request.RegisterRequest;
 import village.farmer.repository.CredentialRepository;
 import village.farmer.repository.RoleRepository;
 import village.farmer.repository.UserRepository;
+import village.farmer.service.etc.Hash;
 import village.farmer.service.etc.RegexPattern;
 import village.farmer.statics.ErrorResponseReturnHandle;
 import village.farmer.statics.StaticsEnum;
-import village.farmer.statics.StaticsParameter;
+
+import java.util.Date;
 
 @Service
 public class RegisterService {
@@ -24,17 +27,17 @@ public class RegisterService {
     CredentialRepository credentialRepository;
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    Hash hash;
 
-    public GenericsResponse registerUser (RegisterRequest data) {
-        GenericsResponse response = new GenericsResponse();
+    @Transactional
+    public GenericsResponseModel registerUser (RegisterRequest data) {
+        GenericsResponseModel response = new GenericsResponseModel();
         RegexPattern regex = new RegexPattern();
         try {
             Credential credential = credentialRepository.findByUsername(data.getUsername());
             if (credential!=null) {
                 response.setMsg(ErrorResponseReturnHandle.Auth_Register_01);
-                return  response;
-            } else if (!data.getPassword().equals(data.getRePassword())) {
-                response.setMsg(ErrorResponseReturnHandle.Auth_Register_03);
                 return  response;
             } else if (!regex.passCheck(data.getPassword())) {
                 response.setMsg(ErrorResponseReturnHandle.Auth_Register_02);
@@ -47,15 +50,15 @@ public class RegisterService {
             credential = new Credential();
             try {
                 user.setEmail(data.getEmail());
-                user.setName(data.getName());
-                user.setTitle(data.getTitle());
             } catch (Exception e) {
                 e.printStackTrace();
                 response.setMsg("Err: "+e.getMessage());
             }
             try {
                 credential.setUsername(data.getUsername());
-                credential.setPassword(data.getPassword());
+                credential.setPassword(hash.sha256Hash(data.getPassword()));
+                credential.setCreatedAt(new Date().toInstant());
+                credential.setUpdateAt(new Date().toInstant());
                 credentialRepository.save(credential);
 
                 credential = credentialRepository.findByUsername(data.getUsername());
@@ -66,10 +69,12 @@ public class RegisterService {
                     return  response;
                 }
 
-                System.out.println(StaticsEnum.Role_User.displayName());
                 Role role = roleRepository.findByRoleName(StaticsEnum.Role_User.displayName());
                 if (role!=null) {
                     user.setRole(role);
+                    user.setCreatedAt(new Date().toInstant());
+                    user.setUpdateAt(new Date().toInstant());
+                    System.out.println(user);
                     userRepository.save(user);
                 } else {
                     response.setMsg(ErrorResponseReturnHandle.Internal_Err_Null_02);
@@ -77,12 +82,12 @@ public class RegisterService {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                response.setMsg("Err: "+e.getMessage());
+                response.setMsg(e.getMessage());
             }
             response.setMsg(ErrorResponseReturnHandle.Auth_Register_Success);
         } catch (Exception e) {
             e.printStackTrace();
-            response.setMsg("Err: "+e.getMessage());
+            response.setMsg(e.getMessage());
         }
         return response;
     }

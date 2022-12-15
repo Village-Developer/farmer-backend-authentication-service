@@ -4,15 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import village.farmer.model.GenericsResponse;
+import village.farmer.model.GenericsResponseModel;
 import village.farmer.model.request.LoginRequest;
 import village.farmer.model.request.RegisterRequest;
 import village.farmer.model.response.LoginResponse;
 import village.farmer.service.LoginService;
 import village.farmer.service.RegisterService;
 import village.farmer.statics.ErrorResponseReturnHandle;
-
-import static javax.print.PrintServiceLookup.registerService;
 
 @RestController
 @RequestMapping("/auth")
@@ -42,12 +40,12 @@ public class CredentialController {
     @PostMapping("/register")
     @ResponseBody
     public ResponseEntity<?> register (@RequestBody RegisterRequest request) {
-        GenericsResponse response = new GenericsResponse();
+        GenericsResponseModel response = new GenericsResponseModel();
         try {
             response = registerService.registerUser(request);
         } catch (Exception e) {
             e.printStackTrace();
-            response.setMsg("Err: "+e.getMessage());
+            response.setMsg(e.getMessage());
         }
         HttpStatus httpStatus = ErrorResponseReturnHandle.getStatus(response.getMsg());
         return ResponseEntity

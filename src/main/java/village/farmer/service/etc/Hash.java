@@ -1,9 +1,12 @@
 package village.farmer.service.etc;
 
+import org.springframework.stereotype.Service;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@Service
 public class Hash {
     public String sha256Hash (String input) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");

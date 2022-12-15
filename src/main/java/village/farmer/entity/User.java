@@ -1,11 +1,21 @@
 package village.farmer.entity;
 
-import javax.persistence.*;
+import lombok.*;
+import org.hibernate.Hibernate;
 
+import javax.persistence.*;
+import java.time.Instant;
+import java.util.Objects;
+
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "user")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     private Integer id;
 
@@ -20,11 +30,19 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
+    @ToString.Exclude
     private Role role;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "credential_id")
+    @ToString.Exclude
     private Credential credential;
+
+    @Column(name = "created_at")
+    private Instant createdAt;
+
+    @Column(name = "update_at")
+    private Instant updateAt;
 
     public Integer getId() {
         return id;
@@ -74,4 +92,32 @@ public class User {
         this.credential = credential;
     }
 
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Instant updateAt) {
+        this.updateAt = updateAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return id != null && Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

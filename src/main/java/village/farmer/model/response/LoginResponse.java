@@ -1,10 +1,10 @@
 package village.farmer.model.response;
 
-import village.farmer.model.GenericsResponse;
+import village.farmer.model.GenericsResponseModel;
 
 import java.util.Date;
 
-public class LoginResponse extends GenericsResponse {
+public class LoginResponse extends GenericsResponseModel {
     private String token;
     private String user;
     private Date timeStamp;

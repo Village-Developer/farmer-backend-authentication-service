@@ -11,21 +11,27 @@ public class ErrorResponseReturnHandle {
     public static final String Auth_Register_02 = "Password Invalid";
     public static final String Auth_Register_03 = "Password not Match";
     public static final String Auth_Register_04 = "Mail Invalid";
+    public static final String Role_Edit_01 = "Fail to Edit";
+    public static final String Role_Edit_02 = "User Unauthorized";
     public static final String Internal_Err_Null_01 = "Credential is null";
     public static final String Internal_Err_Null_02 = "Role is null";
 
     // Success
     public static final String Auth_Verify_Success = "Login Success";
     public static final String Auth_Register_Success = "Register Success";
+    public static final String Role_Edit_Success = "Edit Success";
+
 
     public static HttpStatus getStatus (String msg) {
         switch (msg){
-            case  Auth_Verify_Success:
+            case Auth_Verify_Success:
+            case Role_Edit_Success:
                 return HttpStatus.OK;
             case Auth_Register_Success:
                 return HttpStatus.CREATED;
             case Auth_Verify_01 :
             case Auth_Verify_02 :
+            case Role_Edit_02:
                 return HttpStatus.UNAUTHORIZED;
             case Auth_Register_01:
             case Auth_Register_02:

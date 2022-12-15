@@ -1,15 +1,23 @@
 package village.farmer.statics;
 
 public enum StaticsEnum {
-    Role_User("user"),
-    Role_Villager("villager");
+    Role_User("user", 1),
+    Role_Other("other", 2),
+
+    Role_Admin("admin", 3),
+    Role_Villager("villager", 4);
 
     private String display;
-    StaticsEnum(String display) {
+    private Integer level;
+    StaticsEnum(String display, int level) {
         this.display = display;
+        this.level = level;
     }
     public String displayName() {
         return display;
+    }
+    public Integer displayLevel() {
+        return level;
     }
     @Override
     public String toString() {
