@@ -17,12 +17,15 @@ public class ApiDocumentController {
     ModelMapper modelMapper;
 
     @Autowired
+    ResponseHandler responseHandler;
+
+    @Autowired
     ApiDocumentService apiDocumentService;
 
     @GetMapping("/api_group/api_list/{api_list_id}")
     public ResponseEntity<Object> getByApiList(@PathVariable("api_list_id") Integer api_list_id) {
 
-        return ResponseHandler.responseBuilder("success", HttpStatus.OK, apiDocumentService.getByApiId(api_list_id));
+        return responseHandler.responseBuilder("success", HttpStatus.OK, apiDocumentService.getByApiId(api_list_id));
     }
 
 }

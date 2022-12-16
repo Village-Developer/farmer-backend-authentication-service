@@ -20,6 +20,9 @@ public class ApiDocumentListController {
     @Autowired
     ApiDocumentListService apiDocumentListService;
 
+    @Autowired
+    ResponseHandler responseHandler;
+
     @PostMapping("/api_group/{api_group_id}")
     public ResponseEntity<Object> addApiList(@PathVariable("api_group_id") Integer apiGroupId, @RequestBody ApiDocumentListDTO apiDocumentListDTO) {
 
@@ -27,7 +30,7 @@ public class ApiDocumentListController {
 
         ApiDocumentList apiDocumentList = modelMapper.map(apiDocumentListDTO, ApiDocumentList.class);
 
-        return ResponseHandler.responseBuilder("success", HttpStatus.CREATED, apiDocumentListService.addListApi(apiDocumentList));
+        return responseHandler.responseBuilder("success", HttpStatus.CREATED, apiDocumentListService.addListApi(apiDocumentList));
     }
 
 }

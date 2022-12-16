@@ -9,6 +9,7 @@ import village.farmer.entity.ApiDocumentGroup;
 import village.farmer.model.ApiDocumentGroupDTO;
 import village.farmer.response.ResponseHandler;
 import village.farmer.service.ApiDocumentGroupService;
+import village.farmer.service.AuthorizationService;
 
 @RestController
 @RequestMapping("/api/api_document/")
@@ -16,24 +17,42 @@ import village.farmer.service.ApiDocumentGroupService;
 public class ApiDocumentGroupController {
 
     @Autowired
+    AuthorizationService authorizationService;
+
+    @Autowired
     ModelMapper modelMapper;
 
     @Autowired
     ApiDocumentGroupService apiDocumentGroupService;
 
+    @Autowired
+    ResponseHandler responseHandler;
+
     @PostMapping("/api_group")
-    public ResponseEntity<Object> addApiGroup(@RequestBody ApiDocumentGroupDTO apiDocumentGroupDTO) {
+    public ResponseEntity<Object> addApiGroup(@RequestHeader("Authorization") String token, @RequestBody ApiDocumentGroupDTO apiDocumentGroupDTO) throws Exception {
 
-        ApiDocumentGroup apiDocumentGroup = modelMapper.map(apiDocumentGroupDTO, ApiDocumentGroup.class);
+        String authorization = authorizationService.checkToken(token);
 
-        return ResponseHandler.responseBuilder("success", HttpStatus.CREATED, apiDocumentGroupService.addGroupApi(apiDocumentGroup));
+        if(authorization == null) {
+
+            return responseHandler.responseBuilder("Unauthorized", HttpStatus.UNAUTHORIZED);
+
+        } else {
+
+            ApiDocumentGroup apiDocumentGroup = modelMapper.map(apiDocumentGroupDTO, ApiDocumentGroup.class);
+
+            return responseHandler.responseBuilder("success", HttpStatus.OK, apiDocumentGroupService.addGroupApi(apiDocumentGroup));
+
+        }
+
+
 
     }
 
     @GetMapping("/api_group")
     public ResponseEntity<Object> getAllApiGroup() {
 
-        return ResponseHandler.responseBuilder("success", HttpStatus.OK, apiDocumentGroupService.getAllApiGroup());
+        return responseHandler.responseBuilder("success", HttpStatus.OK, apiDocumentGroupService.getAllApiGroup());
 
     }
 }
