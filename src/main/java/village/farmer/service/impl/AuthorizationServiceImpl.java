@@ -14,10 +14,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     @Override
     public String checkToken(String token) throws Exception {
 
-        String test = jwt.getUserFromToken(token);
-        System.out.println(test);
-
-        return null;
+        return jwt.jwtVerify(token);
 
     }
 }

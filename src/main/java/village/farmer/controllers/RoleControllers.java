@@ -18,35 +18,35 @@ public class RoleControllers {
     @Autowired
     RoleManagementService roleManagementService;
 
-    @PostMapping("/edit")
-    @ResponseBody
-    public ResponseEntity<GenericsResponseModel> edit (@RequestHeader("Authorization") String token, @RequestBody EditRoleRequest request) {
-        GenericsResponseModel response = new GenericsResponseModel();
-        try {
-            response = roleManagementService.edit(token, request);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setMsg(e.getMessage());
-        }
-        HttpStatus httpStatus = ErrorResponseReturnHandle.getStatus(response.getMsg());
-        return ResponseEntity
-                .status(httpStatus)
-                .body(response);
-    }
-
-    @DeleteMapping("/delete")
-    @ResponseBody
-    public ResponseEntity<GenericsResponseModel> delete (@RequestHeader("Authorization") String token, @RequestBody DeleteRoleRequest request) {
-        GenericsResponseModel response = new GenericsResponseModel();
-        try {
-            response = roleManagementService.delete(token,request);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setMsg(e.getMessage());
-        }
-        HttpStatus httpStatus = ErrorResponseReturnHandle.getStatus(response.getMsg());
-        return ResponseEntity
-                .status(httpStatus)
-                .body(response);
-    }
+//    @PostMapping("/edit")
+//    @ResponseBody
+//    public ResponseEntity<GenericsResponseModel> edit (@RequestHeader("Authorization") String token, @RequestBody EditRoleRequest request) {
+//        GenericsResponseModel response = new GenericsResponseModel();
+//        try {
+//            response = roleManagementService.edit(token, request);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            response.setMsg(e.getMessage());
+//        }
+//        HttpStatus httpStatus = ErrorResponseReturnHandle.getStatus(response.getMsg());
+//        return ResponseEntity
+//                .status(httpStatus)
+//                .body(response);
+//    }
+//
+//    @DeleteMapping("/delete")
+//    @ResponseBody
+//    public ResponseEntity<GenericsResponseModel> delete (@RequestHeader("Authorization") String token, @RequestBody DeleteRoleRequest request) {
+//        GenericsResponseModel response = new GenericsResponseModel();
+//        try {
+//            response = roleManagementService.delete(token,request);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            response.setMsg(e.getMessage());
+//        }
+//        HttpStatus httpStatus = ErrorResponseReturnHandle.getStatus(response.getMsg());
+//        return ResponseEntity
+//                .status(httpStatus)
+//                .body(response);
+//    }
 }

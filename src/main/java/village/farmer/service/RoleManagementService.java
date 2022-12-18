@@ -23,43 +23,43 @@ public class RoleManagementService {
     @Autowired
     RoleRepository roleRepository;
 
-    public GenericsResponseModel edit (String token, EditRoleRequest request) {
-        GenericsResponseModel response = new GenericsResponseModel();
-        try {
-            token = token.replace("Bearer ","");
-            if(!jwt.RoleVillageAuthorized(token)|| !jwt.RoleAdminAuthorized(token)){
-                throw new Exception(ErrorResponseReturnHandle.Role_Edit_02);
-            }
-            Role role = roleRepository.findByRoleName(request.getRole());
-            role.setRoleName(request.getChangeTo());
-            roleRepository.save(role);
-            response.setMsg(ErrorResponseReturnHandle.Role_Edit_Success);
-        } catch (Exception e){
-            e.printStackTrace();
-            response.setMsg(ErrorResponseReturnHandle.Role_Edit_01);
-        }
-        return response;
-    }
+//    public GenericsResponseModel edit (String token, EditRoleRequest request) {
+//        GenericsResponseModel response = new GenericsResponseModel();
+//        try {
+//            token = token.replace("Bearer ","");
+//            if(!jwt.RoleVillageAuthorized(token)|| !jwt.RoleAdminAuthorized(token)){
+//                throw new Exception(ErrorResponseReturnHandle.Role_Edit_02);
+//            }
+//            Role role = roleRepository.findByRoleName(request.getRole());
+//            role.setRoleName(request.getChangeTo());
+//            roleRepository.save(role);
+//            response.setMsg(ErrorResponseReturnHandle.Role_Edit_Success);
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            response.setMsg(ErrorResponseReturnHandle.Role_Edit_01);
+//        }
+//        return response;
+//    }
 
-    public GenericsResponseModel delete (String token, DeleteRoleRequest request) {
-        GenericsResponseModel response = new GenericsResponseModel();
-        try {
-            token = token.replace("Bearer ","");
-            if(!jwt.RoleVillageAuthorized(token)|| !jwt.RoleAdminAuthorized(token)){
-                throw new Exception();
-            }
-            String user = jwt.getUserFromToken(token);
-            if (authorization.roleLevelCheck(user,request.getRole())) {
-                Role role = roleRepository.findByRoleName(request.getRole());
-                roleRepository.delete(role);
-                response.setMsg("");
-            } else {
-                throw new Exception();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setMsg(e.getMessage());
-        }
-        return response;
-    }
+//    public GenericsResponseModel delete (String token, DeleteRoleRequest request) {
+//        GenericsResponseModel response = new GenericsResponseModel();
+//        try {
+//            token = token.replace("Bearer ","");
+//            if(!jwt.RoleVillageAuthorized(token)|| !jwt.RoleAdminAuthorized(token)){
+//                throw new Exception();
+//            }
+//            String user = jwt.getUserFromToken(token);
+//            if (authorization.roleLevelCheck(user,request.getRole())) {
+//                Role role = roleRepository.findByRoleName(request.getRole());
+//                roleRepository.delete(role);
+//                response.setMsg("");
+//            } else {
+//                throw new Exception();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            response.setMsg(e.getMessage());
+//        }
+//        return response;
+//    }
 }

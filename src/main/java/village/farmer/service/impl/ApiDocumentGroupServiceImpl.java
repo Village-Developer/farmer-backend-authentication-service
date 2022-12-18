@@ -17,8 +17,6 @@ public class ApiDocumentGroupServiceImpl implements ApiDocumentGroupService {
     @Override
     public String addGroupApi(ApiDocumentGroup apiDocumentGroup) {
 
-        apiDocumentGroup.setCreatedAt(new Date());
-
         apiDocumentGroupRepository.save(apiDocumentGroup);
 
         return "Successfully created";

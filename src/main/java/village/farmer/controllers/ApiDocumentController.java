@@ -1,6 +1,5 @@
 package village.farmer.controllers;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +11,6 @@ import village.farmer.service.ApiDocumentService;
 @RequestMapping("/api/api_document/")
 @CrossOrigin(origins="*")
 public class ApiDocumentController {
-
-    @Autowired
-    ModelMapper modelMapper;
 
     @Autowired
     ResponseHandler responseHandler;

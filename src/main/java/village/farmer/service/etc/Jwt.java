@@ -8,7 +8,7 @@ import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import village.farmer.entity.User;
-import village.farmer.statics.StaticsEnum;
+import org.jose4j.jwt.consumer.InvalidJwtException;
 import village.farmer.statics.StaticsParameter;
 
 @Service
@@ -33,63 +33,77 @@ public class Jwt {
         jws.setKey(certificateKey.CertPrivateKey());
         jws.setKeyIdHeaderValue(certificateKey.CertPrivateKey().getAlgorithm());
         jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
-        String jwt = jws.getCompactSerialization();
-        return jwt;
+        return jws.getCompactSerialization();
     }
 
-    public Boolean jwtVerify (String token, String role, String user) throws Exception {
+//    public Boolean jwtVerify (String token, String role, String user) throws Exception {
+//        try {
+//            JwtConsumer consumer = new JwtConsumerBuilder()
+//                    .setExpectedAudience(role)
+//                    .setExpectedIssuer(StaticsParameter.ISSUER)
+//                    .setRequireSubject()
+//                    .setExpectedSubject(user+"_Auth")
+//                    .setVerificationKey(certificateKey.CertPublicKey())
+//                    .build();
+//            JwtClaims claims = consumer.processToClaims(token);
+//            return true;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
+//
+//    public Boolean jwtVerify (String token, String role) throws Exception {
+//        try {
+//            JwtConsumer consumer = new JwtConsumerBuilder()
+//                    .setExpectedAudience(role)
+//                    .setExpectedIssuer(StaticsParameter.ISSUER)
+//                    .setVerificationKey(certificateKey.CertPublicKey())
+//                    .build();
+//            JwtClaims claims = consumer.processToClaims(token);
+//            return true;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
+
+    public String jwtVerify (String token) throws Exception {
         try {
+
+            String format = token.replace("Bearer", "").trim();
+
             JwtConsumer consumer = new JwtConsumerBuilder()
-                    .setExpectedAudience(role)
+                    .setSkipAllDefaultValidators()
                     .setExpectedIssuer(StaticsParameter.ISSUER)
-                    .setRequireSubject()
-                    .setExpectedSubject(user+"_Auth")
                     .setVerificationKey(certificateKey.CertPublicKey())
                     .build();
-            JwtClaims claims = consumer.processToClaims(token);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            JwtClaims claims = consumer.processToClaims(format);
+
+            return "Token is valid";
+
+        }
+
+        catch (InvalidJwtException invalidValueException) {
+
+            return "Invalid Token";
+
+        }
+
+        catch (Exception e) {
+
+//            e.printStackTrace();
+            return "Error";
         }
     }
 
-    public Boolean jwtVerify (String token, String role) throws Exception {
-        try {
-            JwtConsumer consumer = new JwtConsumerBuilder()
-                    .setExpectedAudience(role)
-                    .setExpectedIssuer(StaticsParameter.ISSUER)
-                    .setVerificationKey(certificateKey.CertPublicKey())
-                    .build();
-            JwtClaims claims = consumer.processToClaims(token);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public String getUserFromToken (String token) throws Exception {
-        try {
-            JwtConsumer consumer = new JwtConsumerBuilder()
-                    .setExpectedIssuer(StaticsParameter.ISSUER)
-                    .setVerificationKey(certificateKey.CertPublicKey())
-                    .build();
-            JwtClaims claims = consumer.processToClaims(token);
-            return claims.getStringClaimValue("username");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public Boolean RoleAdminAuthorized (String token) throws Exception {
-        return jwtVerify(token, StaticsEnum.Role_Admin.displayName()); // กำลังคิด
-    }
-    public Boolean RoleVillageAuthorized (String token) throws Exception {
-        return jwtVerify(token, StaticsEnum.Role_Villager.displayName()); // กำลังคิด
-    }
-    public Boolean RoleUserAuthorized (String token) throws Exception {
-        return jwtVerify(token, StaticsEnum.Role_User.displayName()); // กำลังคิด
-    }
+//    public Boolean RoleAdminAuthorized (String token) throws Exception {
+//        return jwtVerify(token, StaticsEnum.Role_Admin.displayName()); // กำลังคิด
+//    }
+//    public Boolean RoleVillageAuthorized (String token) throws Exception {
+//        return jwtVerify(token, StaticsEnum.Role_Villager.displayName()); // กำลังคิด
+//    }
+//    public Boolean RoleUserAuthorized (String token) throws Exception {
+//        return jwtVerify(token, StaticsEnum.Role_User.displayName()); // กำลังคิด
+//    }
 }
