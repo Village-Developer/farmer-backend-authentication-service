@@ -12,7 +12,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "credential")
+@Table(name = "credentials")
 public class Credential {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

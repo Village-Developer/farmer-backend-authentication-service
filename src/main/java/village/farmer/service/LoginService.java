@@ -30,7 +30,6 @@ public class LoginService {
         try {
             String msg = "";
             Credential user = credentialRepository.findByUsername(data.getUsername());
-            System.out.println(user);
             if (user == null) {
                 msg =  ErrorResponseReturnHandle.Auth_Verify_01;
             }
@@ -42,7 +41,6 @@ public class LoginService {
                 response.setMsg(msg);
                 response.setUser(data.getUsername());
                 User users = userRepository.findByCredential(user);
-                System.out.println(users);
                 response.setToken(jwt.jwtCreate(userRepository.findByCredential(user)));
                 response.setTimeStamp(new Date());
             } else {
