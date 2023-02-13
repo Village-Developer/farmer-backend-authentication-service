@@ -1,35 +1,12 @@
 package village.farmer.model.response;
 
-import village.farmer.model.GenericsResponseModel;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Date;
-
-public class LoginResponse extends GenericsResponseModel {
-    private String token;
+@Getter
+@Setter
+public class LoginResponse {
     private String user;
-    private Date timeStamp;
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public Date getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp;
-    }
+    private String role;
+    private String token;
 }

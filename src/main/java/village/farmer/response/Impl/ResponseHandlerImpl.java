@@ -22,7 +22,7 @@ public class ResponseHandlerImpl implements ResponseHandler {
         ZonedDateTime currentTime = ZonedDateTime.ofInstant(nowUtc, asiaBangkok);
 
         Map<String, Object> response = new LinkedHashMap<>();
-        response.put("status", httpStatus.value());
+        response.put("success", true);
         response.put("message", message);
         response.put("timestamp", currentTime);
 
@@ -35,15 +35,28 @@ public class ResponseHandlerImpl implements ResponseHandler {
         Instant nowUtc = Instant.now();
         ZoneId asiaBangkok = ZoneId.of("Asia/Bangkok");
         ZonedDateTime currentTime = ZonedDateTime.ofInstant(nowUtc, asiaBangkok);
-
         Map<String, Object> response = new LinkedHashMap<>();
-        response.put("status", httpStatus.value());
+        response.put("success", true);
         response.put("message", message);
-        response.put("timestamp", currentTime);
         response.put("data", responseObject);
+        response.put("timestamp", currentTime);
 
         return new ResponseEntity<>(response, httpStatus);
 
+    }
+
+    @Override
+    public ResponseEntity<Object> errorResponseBuilder(String message, HttpStatus httpStatus) {
+        Instant nowUtc = Instant.now();
+        ZoneId asiaBangkok = ZoneId.of("Asia/Bangkok");
+        ZonedDateTime currentTime = ZonedDateTime.ofInstant(nowUtc, asiaBangkok);
+
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("success", false);
+        response.put("message", message);
+        response.put("timestamp", currentTime);
+
+        return new ResponseEntity<>(response, httpStatus);
     }
 
 }

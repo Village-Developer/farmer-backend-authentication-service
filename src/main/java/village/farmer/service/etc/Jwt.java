@@ -3,13 +3,20 @@ package village.farmer.service.etc;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
 import org.jose4j.jwt.JwtClaims;
+import org.jose4j.jwt.NumericDate;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
+import org.jose4j.jwt.consumer.NumericDateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import village.farmer.entity.User;
 import org.jose4j.jwt.consumer.InvalidJwtException;
+import village.farmer.model.GenericsResponse;
+import village.farmer.statics.ErrorResponseReturnHandle;
 import village.farmer.statics.StaticsParameter;
+
+import javax.xml.crypto.Data;
+import java.util.Date;
 
 @Service
 public class Jwt {
@@ -20,12 +27,16 @@ public class Jwt {
     CertificateKey certificateKey;
     public String jwtCreate (User user) throws Exception {
         JwtClaims claims = new JwtClaims();
-        claims.setAudience(user.getRole().getRoleName());
+        if (user.getRole().getRoleName().equals("admin")) {
+            claims.setAudience("admin");
+        } else {
+            claims.setAudience("user");
+        }
+        claims.setClaim("username",user.getCredential().getUsername());
         claims.setExpirationTimeMinutesInTheFuture(StaticsParameter.ACCESS_TOKEN_VALIDITY_MINUTE);
         claims.setGeneratedJwtId();
         claims.setIssuer(StaticsParameter.ISSUER);
         claims.setSubject(hash.sha256Hash(user.getCredential().getUsername()+"_Auth"));
-        claims.setClaim("username",user.getCredential().getUsername());
 
         JsonWebSignature jws = new JsonWebSignature();
         jws.setPayload(claims.toJson());
@@ -36,74 +47,34 @@ public class Jwt {
         return jws.getCompactSerialization();
     }
 
-//    public Boolean jwtVerify (String token, String role, String user) throws Exception {
-//        try {
-//            JwtConsumer consumer = new JwtConsumerBuilder()
-//                    .setExpectedAudience(role)
-//                    .setExpectedIssuer(StaticsParameter.ISSUER)
-//                    .setRequireSubject()
-//                    .setExpectedSubject(user+"_Auth")
-//                    .setVerificationKey(certificateKey.CertPublicKey())
-//                    .build();
-//            JwtClaims claims = consumer.processToClaims(token);
-//            return true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
-//
-//    public Boolean jwtVerify (String token, String role) throws Exception {
-//        try {
-//            JwtConsumer consumer = new JwtConsumerBuilder()
-//                    .setExpectedAudience(role)
-//                    .setExpectedIssuer(StaticsParameter.ISSUER)
-//                    .setVerificationKey(certificateKey.CertPublicKey())
-//                    .build();
-//            JwtClaims claims = consumer.processToClaims(token);
-//            return true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
-
-    public String jwtVerify (String token) throws Exception {
+    public GenericsResponse jwtVerify (String token) throws Exception {
+        GenericsResponse response = new GenericsResponse();
         try {
-
             String format = token.replace("Bearer", "").trim();
-
             JwtConsumer consumer = new JwtConsumerBuilder()
                     .setSkipAllDefaultValidators()
+                    .setRequireExpirationTime()
                     .setExpectedIssuer(StaticsParameter.ISSUER)
                     .setVerificationKey(certificateKey.CertPublicKey())
                     .build();
-            JwtClaims claims = consumer.processToClaims(format);
-
-            return "Token is valid";
-
-        }
-
-        catch (InvalidJwtException invalidValueException) {
-
-            return "Invalid Token";
-
-        }
-
-        catch (Exception e) {
-
-//            e.printStackTrace();
-            return "Error";
+            try {
+                consumer.processToClaims(format);
+            } catch (InvalidJwtException e) {
+                response.setStatus(401);
+                response.setMsg("Invalid token");
+                throw new Exception("Invalid token");
+            }
+            if (consumer.processToClaims(format).getExpirationTime().isBefore(NumericDate.now())) {
+                response.setStatus(401);
+                response.setMsg("Token expired");
+                throw new Exception("Token expired");
+            }
+            response.setStatus(200);
+            response.setMsg("Authorized");
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return response;
         }
     }
-
-//    public Boolean RoleAdminAuthorized (String token) throws Exception {
-//        return jwtVerify(token, StaticsEnum.Role_Admin.displayName()); // กำลังคิด
-//    }
-//    public Boolean RoleVillageAuthorized (String token) throws Exception {
-//        return jwtVerify(token, StaticsEnum.Role_Villager.displayName()); // กำลังคิด
-//    }
-//    public Boolean RoleUserAuthorized (String token) throws Exception {
-//        return jwtVerify(token, StaticsEnum.Role_User.displayName()); // กำลังคิด
-//    }
 }

@@ -10,10 +10,9 @@ public class RegexPattern {
     public Boolean mailCheck (String mail) {
         Pattern pattern = Pattern.compile("\\w*");
         Matcher matcher = pattern.matcher(mail);
-        return matcher.find()?true:false;
+        return matcher.find();
     }
     public Boolean passCheck (String password) {
-        // not this patch
         return true;
     }
 }

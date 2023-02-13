@@ -1,7 +1,9 @@
 package village.farmer.service;
 
+import village.farmer.model.GenericsResponse;
+
 public interface AuthorizationService {
 
-    public String checkToken(String token) throws Exception;
+    public GenericsResponse checkToken(String token) throws Exception;
 
 }

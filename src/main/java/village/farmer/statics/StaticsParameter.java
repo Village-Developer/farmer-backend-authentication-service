@@ -10,7 +10,7 @@ public class StaticsParameter {
     public static final String IMPLICIT = "implicit";
     public static final String ISSUER = "Village Officer";
     public static final String TRUST = "8f6fb3c8079060480d39ae89a45ca9a4311c96dea588a18f9a8d2581cc2412d9";
-    public static final int ACCESS_TOKEN_VALIDITY_MINUTE = 1*24*60; // 1 days (day * hours * minutes * second)
+    public static final int ACCESS_TOKEN_VALIDITY_MINUTE = 24 * 60; // 1 days (day * hours * minutes * second)
     public static final int REFRESH_TOKEN_VALIDITY_MINUTE = 7*24*60; // 7 days (day * hours * minutes * second)
     public static final String JWT_CERT_PASSWORD = "hunta101010";
     public static final String JWT_CERT_ALIAS = "VillageAlias";

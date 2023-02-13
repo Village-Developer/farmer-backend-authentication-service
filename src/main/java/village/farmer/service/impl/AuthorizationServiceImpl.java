@@ -2,6 +2,7 @@ package village.farmer.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import village.farmer.model.GenericsResponse;
 import village.farmer.service.AuthorizationService;
 import village.farmer.service.etc.Jwt;
 
@@ -12,7 +13,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     Jwt jwt;
 
     @Override
-    public String checkToken(String token) throws Exception {
+    public GenericsResponse checkToken(String token) throws Exception {
 
         return jwt.jwtVerify(token);
 

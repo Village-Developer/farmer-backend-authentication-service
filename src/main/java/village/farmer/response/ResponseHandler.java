@@ -5,8 +5,10 @@ import org.springframework.http.ResponseEntity;
 
 public interface ResponseHandler {
 
-    public ResponseEntity<Object> responseBuilder(String message, HttpStatus httpStatus);
+    ResponseEntity<Object> responseBuilder(String message, HttpStatus httpStatus);
 
-    public ResponseEntity<Object> responseBuilder(String message, HttpStatus httpStatus, Object responseObject);
+    ResponseEntity<Object> responseBuilder(String message, HttpStatus httpStatus, Object responseObject);
+
+    ResponseEntity<Object> errorResponseBuilder(String message, HttpStatus httpStatus);
 
 }

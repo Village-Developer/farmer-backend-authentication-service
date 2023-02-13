@@ -5,6 +5,7 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Objects;
 
 @Getter
@@ -19,57 +20,17 @@ public class Credential {
     @Column(name = "credential_id", nullable = false)
     private Integer id;
 
-    @Column(name = "username", length = 15)
+    @Column(name = "username", length = 15, nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password", length = 120)
+    @Column(name = "password", length = 120, nullable = false)
     private String password;
 
-    @Column(name = "created_at")
-    private Instant createdAt;
+    @Column(name = "created_at", columnDefinition = "timestamp default current_timestamp()", updatable = false)
+    private Instant createdAt = new Date().toInstant();
 
-    @Column(name = "updated_at")
-    private Instant updateAt;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdateAt() {
-        return updateAt;
-    }
-
-    public void setUpdateAt(Instant updateAt) {
-        this.updateAt = updateAt;
-    }
+    @Column(name = "updated_at", columnDefinition = "timestamp default null on update current_timestamp()")
+    private Instant updatedAt = new Date().toInstant();
 
     @Override
     public boolean equals(Object o) {

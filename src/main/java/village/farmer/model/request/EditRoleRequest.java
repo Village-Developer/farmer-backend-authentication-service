@@ -1,22 +1,12 @@
 package village.farmer.model.request;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class EditRoleRequest {
     private String role;
     private String changeTo;
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getChangeTo() {
-        return changeTo;
-    }
-
-    public void setChangeTo(String changeTo) {
-        this.changeTo = changeTo;
-    }
 }

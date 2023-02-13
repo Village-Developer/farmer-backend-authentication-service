@@ -5,6 +5,7 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Date;
 import java.util.Objects;
 
 @Getter
@@ -19,94 +20,24 @@ public class User {
     @Column(name = "user_id", nullable = false)
     private Integer id;
 
-    @Column(name = "title", length = 50)
-    private String title;
-
-    @Column(name = "name", length = 150)
-    private String name;
-
     @Column(name = "email", length = 50)
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     @ToString.Exclude
     private Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "credential_id")
     @ToString.Exclude
     private Credential credential;
 
-    @Column(name = "created_at")
-    private Instant createdAt;
+    @Column(name = "created_at", columnDefinition = "timestamp default current_timestamp()", updatable = false)
+    private Instant createdAt = new Date().toInstant();
 
-    @Column(name = "update_at")
-    private Instant updateAt;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public Credential getCredential() {
-        return credential;
-    }
-
-    public void setCredential(Credential credential) {
-        this.credential = credential;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdateAt() {
-        return updateAt;
-    }
-
-    public void setUpdateAt(Instant updateAt) {
-        this.updateAt = updateAt;
-    }
+    @Column(name = "updated_at", columnDefinition = "timestamp default null on update current_timestamp()")
+    private Instant updatedAt = new Date().toInstant();
 
     @Override
     public boolean equals(Object o) {

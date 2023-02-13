@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import village.farmer.entity.Credential;
 import village.farmer.entity.User;
+import village.farmer.model.GenericsResponse;
 import village.farmer.model.request.LoginRequest;
 import village.farmer.model.response.LoginResponse;
 import village.farmer.repository.CredentialRepository;
@@ -12,7 +13,7 @@ import village.farmer.service.etc.Hash;
 import village.farmer.service.etc.Jwt;
 import village.farmer.statics.ErrorResponseReturnHandle;
 
-import java.util.Date;
+import java.util.Objects;
 
 @Service
 public class LoginService {
@@ -25,31 +26,36 @@ public class LoginService {
     Jwt jwt;
     @Autowired
     Hash hash;
-    public LoginResponse login (LoginRequest data){
-        LoginResponse response = new LoginResponse();
+    public GenericsResponse login (LoginRequest data){
+        GenericsResponse response = new GenericsResponse();
         try {
-            String msg = "";
-            Credential user = credentialRepository.findByUsername(data.getUsername());
-            if (user == null) {
-                msg =  ErrorResponseReturnHandle.Auth_Verify_01;
+            Credential credential = credentialRepository.findByUsername(data.getUsername());
+            if (credential == null) {
+                response.setStatus(401);
+                response.setMsg("User not found");
+                throw new Exception("User not found");
             }
-            else if (!hash.sha256Hash(data.getPassword()).equals(user.getPassword())) {
-                msg = ErrorResponseReturnHandle.Auth_Verify_02;
+            else if (!hash.sha256Hash(data.getPassword()).equals(credential.getPassword())) {
+                response.setStatus(401);
+                response.setMsg("Invalid password");
+                throw new Exception("Invalid password");
             }
-            if (msg.equals("")) {
-                msg = ErrorResponseReturnHandle.Auth_Verify_Success;
-                response.setMsg(msg);
-                response.setUser(data.getUsername());
-                User users = userRepository.findByCredential(user);
-                response.setToken(jwt.jwtCreate(userRepository.findByCredential(user)));
-                response.setTimeStamp(new Date());
+            response.setStatus(200);
+            response.setMsg("Login success");
+            LoginResponse loginResponse = new LoginResponse();
+            User user = userRepository.findByCredential(credential);
+            if (Objects.equals(user.getRole().getRoleName(), "admin")) {
+                loginResponse.setRole("admin");
             } else {
-                response.setMsg(msg);
+                loginResponse.setRole("user");
             }
+            loginResponse.setUser(credential.getUsername());
+            loginResponse.setToken("Bearer " + jwt.jwtCreate(user));
+            response.setData(loginResponse);
+            return response;
         } catch (Exception e) {
             e.printStackTrace();
-            response.setMsg("Err: "+e.getMessage());
+            return response;
         }
-        return response;
     }
 }
