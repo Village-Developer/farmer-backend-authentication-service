@@ -15,4 +15,8 @@ public class RegexPattern {
     public Boolean passCheck (String password) {
         return true;
     }
+
+    public boolean roleCheck(String role) {
+        return true;
+    }
 }
