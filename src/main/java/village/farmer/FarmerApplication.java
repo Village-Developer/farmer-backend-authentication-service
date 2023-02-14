@@ -1,5 +1,9 @@
 package village.farmer;
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -11,6 +15,7 @@ import village.farmer.repository.RoleRepository;
 
 import java.util.Arrays;
 import java.util.Date;
+
 @SpringBootApplication
 public class FarmerApplication implements CommandLineRunner {
 

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import village.farmer.entity.Credential;
 import village.farmer.entity.User;
 import village.farmer.model.GenericsResponse;
-import village.farmer.model.request.LoginRequest;
+import village.farmer.dto.LoginDTO;
 import village.farmer.model.response.LoginResponse;
 import village.farmer.repository.CredentialRepository;
 import village.farmer.repository.UserRepository;
@@ -24,7 +24,7 @@ public class LoginService {
     @Autowired
     Jwt jwt;
 
-    public GenericsResponse login (LoginRequest data){
+    public GenericsResponse login (LoginDTO data){
         /* Create response */
         GenericsResponse response = new GenericsResponse();
         try {

@@ -6,17 +6,12 @@ import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.NumericDate;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
-import org.jose4j.jwt.consumer.NumericDateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import village.farmer.entity.User;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import village.farmer.model.GenericsResponse;
-import village.farmer.statics.ErrorResponseReturnHandle;
 import village.farmer.statics.StaticsParameter;
-
-import javax.xml.crypto.Data;
-import java.util.Date;
 
 @Service
 public class Jwt {
@@ -50,7 +45,7 @@ public class Jwt {
         return jws.getCompactSerialization();
     }
 
-    public GenericsResponse jwtVerify (String token) throws Exception {
+    public GenericsResponse jwtVerify (String token) {
         /* Verify JWT */
         GenericsResponse response = new GenericsResponse();
         try {

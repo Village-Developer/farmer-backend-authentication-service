@@ -8,7 +8,7 @@ import village.farmer.entity.Credential;
 import village.farmer.entity.Role;
 import village.farmer.entity.User;
 import village.farmer.model.GenericsResponse;
-import village.farmer.model.request.RegisterRequest;
+import village.farmer.dto.RegisterDTO;
 import village.farmer.repository.CredentialRepository;
 import village.farmer.repository.RoleRepository;
 import village.farmer.repository.UserRepository;
@@ -29,7 +29,7 @@ public class RegisterService {
     Hash hash;
 
     @Transactional
-    public GenericsResponse registerUser (RegisterRequest data) {
+    public GenericsResponse registerUser (RegisterDTO data) {
         /* Create response */
         GenericsResponse response = new GenericsResponse();
         /* Create regex pattern */
