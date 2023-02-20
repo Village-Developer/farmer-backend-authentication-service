@@ -16,6 +16,8 @@ import village.farmer.service.etc.Hash;
 import village.farmer.service.etc.RegexPattern;
 import village.farmer.statics.ErrorResponseReturnHandle;
 
+import java.util.UUID;
+
 @Service
 public class RegisterService {
 

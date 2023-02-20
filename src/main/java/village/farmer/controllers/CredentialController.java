@@ -25,6 +25,8 @@ import village.farmer.service.LoginService;
 import village.farmer.service.RegisterService;
 import village.farmer.service.etc.Jwt;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin(origins = "*")
@@ -76,6 +78,7 @@ public class CredentialController {
     @ResponseBody
     public ResponseEntity<?> verify (@RequestBody VerifyDTO body) throws Exception {
         GenericsResponse response = jwt.jwtVerify(body.getToken());
+        ArrayList<String> r = new ArrayList<>();
         return response.getStatus() == 200
                 ? responseHandler.responseBuilder(response.getMsg(), HttpStatus.valueOf(response.getStatus()))
                 : responseHandler.errorResponseBuilder(response.getMsg(), HttpStatus.valueOf(response.getStatus()));

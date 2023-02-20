@@ -2,11 +2,14 @@ package village.farmer.entity;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,9 +19,9 @@ import java.util.Objects;
 @Table(name = "credentials")
 public class Credential {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Type(type = "uuid-char")
     @Column(name = "credential_id", nullable = false)
-    private Integer id;
+    private UUID id = UUID.randomUUID();;
 
     @Column(name = "username", length = 15, nullable = false, unique = true)
     private String username;

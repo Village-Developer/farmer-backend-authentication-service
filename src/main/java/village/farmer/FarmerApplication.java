@@ -15,6 +15,7 @@ import village.farmer.repository.RoleRepository;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.UUID;
 
 @SpringBootApplication
 public class FarmerApplication implements CommandLineRunner {
@@ -28,10 +29,10 @@ public class FarmerApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		roleRepository.saveAll(Arrays.asList(
-				new Role(1, "admin", new Date().toInstant(),new Date().toInstant()),
-				new Role(2, "user", new Date().toInstant(), new Date().toInstant())
-		));
+//		roleRepository.saveAll(Arrays.asList(
+//				new Role(UUID.randomUUID(), "admin", new Date().toInstant(),new Date().toInstant()),
+//				new Role(UUID.randomUUID(), "user", new Date().toInstant(), new Date().toInstant())
+//		));
 	}
 	@Bean
 	public ModelMapper modelMapper() {

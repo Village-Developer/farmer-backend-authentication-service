@@ -4,6 +4,6 @@ import village.farmer.model.GenericsResponse;
 
 public interface AuthorizationService {
 
-    public GenericsResponse checkToken(String token) throws Exception;
+    GenericsResponse checkToken(String token) throws Exception;
 
 }

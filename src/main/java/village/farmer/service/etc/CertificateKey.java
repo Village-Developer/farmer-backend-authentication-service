@@ -17,8 +17,9 @@ import java.security.cert.Certificate;
 public class CertificateKey {
     public PrivateKey CertPrivateKey() {
         try {
-            File file = new File(StaticsParameter.JWT_CERT_FILE);
-            InputStream stream = Files.newInputStream(file.toPath());
+//            File file = new File(StaticsParameter.JWT_CERT_FILE);
+//            InputStream stream = Files.newInputStream(file.toPath());
+            InputStream stream = getClass().getClassLoader().getResourceAsStream(StaticsParameter.JWT_CERT_FILE);
             KeyStore store = KeyStore.getInstance(StaticsParameter.JWT_CERT_INSTANCE_TYPE);
             store.load(stream, StaticsParameter.JWT_CERT_PASSWORD.toCharArray());
             return (PrivateKey)store.getKey(StaticsParameter.JWT_CERT_ALIAS, StaticsParameter.JWT_CERT_PASSWORD.toCharArray());
@@ -31,8 +32,9 @@ public class CertificateKey {
 
     public Key CertPublicKey() {
         try {
-            File file = new File(StaticsParameter.JWT_CERT_FILE);
-            InputStream stream = Files.newInputStream(file.toPath());
+//            File file = new File(StaticsParameter.JWT_CERT_FILE);
+//            InputStream stream = Files.newInputStream(file.toPath());
+            InputStream stream = getClass().getClassLoader().getResourceAsStream(StaticsParameter.JWT_CERT_FILE);
             KeyStore store = KeyStore.getInstance(StaticsParameter.JWT_CERT_INSTANCE_TYPE);
             store.load(stream, StaticsParameter.JWT_CERT_PASSWORD.toCharArray());
             Certificate k = store.getCertificate(StaticsParameter.JWT_CERT_ALIAS);

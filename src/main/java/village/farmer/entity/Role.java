@@ -2,11 +2,13 @@ package village.farmer.entity;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
@@ -17,9 +19,9 @@ import java.util.Objects;
 @Table(name = "roles")
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Type(type = "uuid-char")
     @Column(name = "role_id", nullable = false)
-    private Integer id;
+    private UUID id = UUID.randomUUID();;
 
     @Column(name = "role_name", length = 50)
     private String roleName;
