@@ -29,6 +29,7 @@ public class Jwt {
         } else {
             claims.setAudience("user");
         }
+        claims.setClaim("user_id",user.getCredential().getId());
         claims.setClaim("username",user.getCredential().getUsername());
         claims.setExpirationTimeMinutesInTheFuture(StaticsParameter.ACCESS_TOKEN_VALIDITY_MINUTE);
         claims.setGeneratedJwtId();
